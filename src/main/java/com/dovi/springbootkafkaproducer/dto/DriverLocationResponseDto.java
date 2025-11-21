@@ -9,7 +9,7 @@ import lombok.Setter;
 @Getter @Setter
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 @Builder
-public class LocationUpdateResponseDto
+public class DriverLocationResponseDto
 {
-    private String message;
+    private String driverLocationDetails;
 }

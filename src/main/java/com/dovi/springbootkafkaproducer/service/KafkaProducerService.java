@@ -2,6 +2,8 @@ package com.dovi.springbootkafkaproducer.service;
 
 import com.dovi.springbootkafkaproducer.dto.LocationUpdateRequestDto;
 import com.dovi.springbootkafkaproducer.dto.LocationUpdateResponseDto;
+import com.dovi.springbootkafkaproducer.utils.DriverLocationDetail;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -16,11 +18,25 @@ public class KafkaProducerService
 
     public LocationUpdateResponseDto pushLocationUpdateToKafka(LocationUpdateRequestDto request)
     {
-        String driverId = request.getDriverId();
-        int latitude = request.getLatitude();
-        int longitude = request.getLongitude();
+         String driverId;
+         int latitude;
+         int longitude;
 
-        String location = "(" + latitude + "," + longitude + ")";
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        try
+        {
+            DriverLocationDetail driverLocationDetail = objectMapper.readValue(request.getDriverLocationDetails(), DriverLocationDetail.class);
+            driverId = driverLocationDetail.getDriverId();
+            latitude = driverLocationDetail.getLatitude();
+            longitude = driverLocationDetail.getLongitude();
+        }
+        catch (Exception exc)
+        {
+            throw new RuntimeException(exc);
+        }
+
+        String location = "(" + driverId + "," + latitude + "," + longitude + ")";
 
         log.info("Pushing location update from producer service to kafka started.....");
 

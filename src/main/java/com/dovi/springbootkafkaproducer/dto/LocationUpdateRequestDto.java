@@ -10,12 +10,6 @@ import lombok.Setter;
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class LocationUpdateRequestDto
 {
-    @NotNull(message = "driver_id is a required field")
-    private String driverId;
-
-    @NotNull(message = "latitude is a required field")
-    private Integer latitude;
-
-    @NotNull(message = "longitude is a required field")
-    private Integer longitude;
+    @NotNull(message = "driver_location_details is a required field")
+    private String driverLocationDetails;
 }
